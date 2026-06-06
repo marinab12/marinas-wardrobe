@@ -99,48 +99,6 @@ function handleInfiniteScroll(container, vertical) {
     }
 }
 
-function setupCenterTouchScroll() {
-    const center = document.getElementById('center-content');
-    let state = null;
-
-    center.addEventListener('touchstart', e => {
-        const wrapper = e.target.closest('#wrapperArriba, #wrapperAbajo, #wrapperZapatos, #wrapperVestidos');
-        if (!wrapper) return;
-        const container = wrapper.querySelector('.scroll-container');
-        if (!container) return;
-        state = {
-            container,
-            startX: e.touches[0].clientX,
-            startY: e.touches[0].clientY,
-            startLeft: container.scrollLeft,
-            axis: null
-        };
-    }, { passive: true });
-
-    center.addEventListener('touchmove', e => {
-        if (!state) return;
-        const dx = e.touches[0].clientX - state.startX;
-        const dy = e.touches[0].clientY - state.startY;
-        if (!state.axis && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
-            state.axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
-        }
-        if (state.axis !== 'h') return;
-        e.preventDefault();
-        state.container.scrollLeft = state.startLeft - dx;
-    }, { passive: false });
-
-    center.addEventListener('touchend', () => {
-        if (!state || state.axis !== 'h') { state = null; return; }
-        const container = state.container;
-        state = null;
-        const imgs = container.querySelectorAll('img.category-image');
-        if (!imgs.length) return;
-        const imgW = (imgs[0].offsetWidth || 140) + 10;
-        const nearest = Math.round(container.scrollLeft / imgW) * imgW;
-        container.scrollTo({ left: nearest, behavior: 'smooth' });
-    }, { passive: true });
-}
-
 function buildCarousel(category) {
     const container = document.getElementById(category.containerId);
     container.innerHTML = '';
@@ -223,7 +181,6 @@ async function init() {
     document.getElementById('btnSeparado').onclick = () => setOutfitMode('separado');
     document.getElementById('btnVestido').onclick = () => setOutfitMode('vestido');
     document.getElementById('btnRandom').onclick = playRandom;
-    setupCenterTouchScroll();
 
     // Build all carousels first
     for(const cat of categories) {

@@ -177,7 +177,8 @@ header span {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    overflow: hidden;
+    overflow: visible;
+    clip-path: inset(0);
     justify-content: flex-start;
     padding-top: 4px;
 }
