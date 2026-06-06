@@ -99,44 +99,45 @@ function handleInfiniteScroll(container, vertical) {
     }
 }
 
-function addTouchScroll(container, vertical) {
-    let startX = 0, startY = 0, startScroll = 0, tracking = false, axis = null;
+function setupCenterTouchScroll() {
+    const center = document.getElementById('center-content');
+    let state = null;
 
-    container.addEventListener('touchstart', e => {
-        startX = e.touches[0].clientX;
-        startY = e.touches[0].clientY;
-        startScroll = vertical ? container.scrollTop : container.scrollLeft;
-        tracking = true;
-        axis = null;
+    center.addEventListener('touchstart', e => {
+        const wrapper = e.target.closest('#wrapperArriba, #wrapperAbajo, #wrapperZapatos, #wrapperVestidos');
+        if (!wrapper) return;
+        const container = wrapper.querySelector('.scroll-container');
+        if (!container) return;
+        state = {
+            container,
+            startX: e.touches[0].clientX,
+            startY: e.touches[0].clientY,
+            startLeft: container.scrollLeft,
+            axis: null
+        };
     }, { passive: true });
 
-    container.addEventListener('touchmove', e => {
-        if (!tracking) return;
-        const dx = e.touches[0].clientX - startX;
-        const dy = e.touches[0].clientY - startY;
-
-        // determine axis on first significant move
-        if (!axis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
-            axis = (vertical ? Math.abs(dy) > Math.abs(dx) : Math.abs(dx) > Math.abs(dy))
-                ? 'main' : 'cross';
+    center.addEventListener('touchmove', e => {
+        if (!state) return;
+        const dx = e.touches[0].clientX - state.startX;
+        const dy = e.touches[0].clientY - state.startY;
+        if (!state.axis && (Math.abs(dx) > 5 || Math.abs(dy) > 5)) {
+            state.axis = Math.abs(dx) > Math.abs(dy) ? 'h' : 'v';
         }
-        if (axis !== 'main') return;
-
+        if (state.axis !== 'h') return;
         e.preventDefault();
-        if (vertical) container.scrollTop = startScroll - dy;
-        else container.scrollLeft = startScroll - dx;
+        state.container.scrollLeft = state.startLeft - dx;
     }, { passive: false });
 
-    container.addEventListener('touchend', () => {
-        if (!tracking || axis !== 'main') { tracking = false; return; }
-        tracking = false;
+    center.addEventListener('touchend', () => {
+        if (!state || state.axis !== 'h') { state = null; return; }
+        const container = state.container;
+        state = null;
         const imgs = container.querySelectorAll('img.category-image');
         if (!imgs.length) return;
-        const imgSize = vertical ? imgs[0].offsetHeight : imgs[0].offsetWidth + 10;
-        const scroll = vertical ? container.scrollTop : container.scrollLeft;
-        const nearest = Math.round(scroll / imgSize) * imgSize;
-        if (vertical) container.scrollTo({ top: nearest, behavior: 'smooth' });
-        else container.scrollTo({ left: nearest, behavior: 'smooth' });
+        const imgW = (imgs[0].offsetWidth || 140) + 10;
+        const nearest = Math.round(container.scrollLeft / imgW) * imgW;
+        container.scrollTo({ left: nearest, behavior: 'smooth' });
     }, { passive: true });
 }
 
@@ -222,13 +223,13 @@ async function init() {
     document.getElementById('btnSeparado').onclick = () => setOutfitMode('separado');
     document.getElementById('btnVestido').onclick = () => setOutfitMode('vestido');
     document.getElementById('btnRandom').onclick = playRandom;
+    setupCenterTouchScroll();
 
     // Build all carousels first
     for(const cat of categories) {
         await loadCategoryImages(cat);
         buildCarousel(cat);
         const container = document.getElementById(cat.containerId);
-        addTouchScroll(container, cat.vertical);
         container.addEventListener('scroll', () => {
             handleInfiniteScroll(container, cat.vertical);
             if(cat.vertical) updateActiveImageVertical(container);
