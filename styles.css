@@ -23,6 +23,7 @@ body {
     background: url('assets/fondo.png') no-repeat center center;
     background-size: cover;
     z-index: -1;
+    pointer-events: none;
 }
 
 header {
@@ -264,6 +265,8 @@ footer {
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
     padding: 6px 8px;
+    isolation: isolate;
+    overflow: hidden;
 }
 
 #center-content .scroll-container {
