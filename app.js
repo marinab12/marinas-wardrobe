@@ -99,6 +99,40 @@ function handleInfiniteScroll(container, vertical) {
     }
 }
 
+function addTouchScroll(container, vertical) {
+    let startPos = 0, startScroll = 0, isDragging = false;
+
+    container.addEventListener('touchstart', e => {
+        isDragging = true;
+        startPos = vertical ? e.touches[0].clientY : e.touches[0].clientX;
+        startScroll = vertical ? container.scrollTop : container.scrollLeft;
+    }, { passive: true });
+
+    container.addEventListener('touchmove', e => {
+        if (!isDragging) return;
+        const delta = (vertical ? e.touches[0].clientY : e.touches[0].clientX) - startPos;
+        if (vertical) container.scrollTop = startScroll - delta;
+        else container.scrollLeft = startScroll - delta;
+        e.stopPropagation();
+    }, { passive: true });
+
+    container.addEventListener('touchend', e => {
+        if (!isDragging) return;
+        isDragging = false;
+        // snap to nearest image
+        const imgs = container.querySelectorAll('img.category-image');
+        if (!imgs.length) return;
+        const imgSize = vertical
+            ? imgs[0].offsetHeight
+            : imgs[0].offsetWidth + 10;
+        const scroll = vertical ? container.scrollTop : container.scrollLeft;
+        const nearest = Math.round(scroll / imgSize) * imgSize;
+        container.scrollTo(vertical
+            ? { top: nearest, behavior: 'smooth' }
+            : { left: nearest, behavior: 'smooth' });
+    }, { passive: true });
+}
+
 function buildCarousel(category) {
     const container = document.getElementById(category.containerId);
     container.innerHTML = '';
@@ -187,6 +221,7 @@ async function init() {
         await loadCategoryImages(cat);
         buildCarousel(cat);
         const container = document.getElementById(cat.containerId);
+        addTouchScroll(container, cat.vertical);
         container.addEventListener('scroll', () => {
             handleInfiniteScroll(container, cat.vertical);
             if(cat.vertical) updateActiveImageVertical(container);

@@ -107,6 +107,7 @@ header span {
     margin: 0 auto;
     gap: clamp(6px, 1.5vw, 15px);
     padding: clamp(6px, 1.5vw, 10px);
+    overflow: hidden;
 }
 
 #sideAccesorios {
