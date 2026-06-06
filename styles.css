@@ -177,7 +177,7 @@ header span {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    overflow: hidden;
+    overflow: visible;
     justify-content: flex-start;
     padding-top: 4px;
 }
@@ -265,8 +265,6 @@ footer {
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
     padding: 6px 8px;
-    isolation: isolate;
-    overflow: hidden;
 }
 
 #center-content .scroll-container {
@@ -283,9 +281,9 @@ footer {
 }
 
 #outfit-toggle {
-    position: absolute;
-    top: 8px;
-    right: 8px;
+    position: fixed;
+    top: 80px;
+    right: 16px;
     display: flex;
     flex-direction: column;
     align-items: center;
