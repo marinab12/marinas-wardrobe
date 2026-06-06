@@ -100,36 +100,43 @@ function handleInfiniteScroll(container, vertical) {
 }
 
 function addTouchScroll(container, vertical) {
-    let startPos = 0, startScroll = 0, isDragging = false;
+    let startX = 0, startY = 0, startScroll = 0, tracking = false, axis = null;
 
     container.addEventListener('touchstart', e => {
-        isDragging = true;
-        startPos = vertical ? e.touches[0].clientY : e.touches[0].clientX;
+        startX = e.touches[0].clientX;
+        startY = e.touches[0].clientY;
         startScroll = vertical ? container.scrollTop : container.scrollLeft;
+        tracking = true;
+        axis = null;
     }, { passive: true });
 
     container.addEventListener('touchmove', e => {
-        if (!isDragging) return;
-        const delta = (vertical ? e.touches[0].clientY : e.touches[0].clientX) - startPos;
-        if (vertical) container.scrollTop = startScroll - delta;
-        else container.scrollLeft = startScroll - delta;
-        e.stopPropagation();
-    }, { passive: true });
+        if (!tracking) return;
+        const dx = e.touches[0].clientX - startX;
+        const dy = e.touches[0].clientY - startY;
 
-    container.addEventListener('touchend', e => {
-        if (!isDragging) return;
-        isDragging = false;
-        // snap to nearest image
+        // determine axis on first significant move
+        if (!axis && (Math.abs(dx) > 4 || Math.abs(dy) > 4)) {
+            axis = (vertical ? Math.abs(dy) > Math.abs(dx) : Math.abs(dx) > Math.abs(dy))
+                ? 'main' : 'cross';
+        }
+        if (axis !== 'main') return;
+
+        e.preventDefault();
+        if (vertical) container.scrollTop = startScroll - dy;
+        else container.scrollLeft = startScroll - dx;
+    }, { passive: false });
+
+    container.addEventListener('touchend', () => {
+        if (!tracking || axis !== 'main') { tracking = false; return; }
+        tracking = false;
         const imgs = container.querySelectorAll('img.category-image');
         if (!imgs.length) return;
-        const imgSize = vertical
-            ? imgs[0].offsetHeight
-            : imgs[0].offsetWidth + 10;
+        const imgSize = vertical ? imgs[0].offsetHeight : imgs[0].offsetWidth + 10;
         const scroll = vertical ? container.scrollTop : container.scrollLeft;
         const nearest = Math.round(scroll / imgSize) * imgSize;
-        container.scrollTo(vertical
-            ? { top: nearest, behavior: 'smooth' }
-            : { left: nearest, behavior: 'smooth' });
+        if (vertical) container.scrollTo({ top: nearest, behavior: 'smooth' });
+        else container.scrollTo({ left: nearest, behavior: 'smooth' });
     }, { passive: true });
 }
 
