@@ -269,9 +269,8 @@ footer {
 #center-content .scroll-container {
     flex: 1;
     min-height: 0;
-    overflow-x: scroll;
+    overflow-x: auto;
     overflow-y: hidden;
-    touch-action: pan-x;
     padding-inline: calc(50% - 70px);
     scroll-padding-inline: calc(50% - 70px);
 }
@@ -316,7 +315,8 @@ footer {
     width: 36px;
     height: 36px;
     font-family: 'Press Start 2P', cursive;
-    font-size: 0.7rem;
+    font-size: 0.6rem;
+    line-height: 1;
     color: #541214;
     background: none;
     border: none;
@@ -425,7 +425,8 @@ footer {
     #outfit-toggle button {
         width: 28px;
         height: 28px;
-        font-size: 0.5rem;
+        font-size: 0.35rem;
+        line-height: 1;
     }
 
     #outfit-toggle .toggle-pill {
