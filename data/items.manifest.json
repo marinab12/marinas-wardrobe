@@ -1,0 +1,51 @@
+{
+  "summer": {
+    "arriba": [
+      "body negro efecto piel pre.png",
+      "camiseta asimetrica marron.png",
+      "camiseta manga corta canale blanco.png",
+      "camiseta manga corta canale gris.png"
+    ],
+    "vestido": [
+      "vestido gris corto.png"
+    ],
+    "abajo": [
+      "falda corta tablas gris.png"
+    ],
+    "zapatos": [
+      "adidas superstar.png",
+      "bailarinas tachuelas burdeos.png"
+    ],
+    "accesorio": [
+      "brazalete dorado.png"
+    ]
+  },
+  "winter": {
+    "head": [],
+    "arriba": [
+      "cardigan cremallera negro.png",
+      "camiseta oversized manga larga negra desgastada.png",
+      "camiseta drapeado lateral marron.png",
+      "camiseta polo cremallera negra.png",
+      "camiseta manga larga marron escote pico.png",
+      "camiseta drapeado lateral roja.png",
+      "camiseta_drapeado_lateral_crema.png"
+    ],
+    "chaqueta": [
+      "blazer marron oversized.png"
+    ],
+    "vestido": [],
+    "abajo": [],
+    "zapatos": [
+      "adidas superstar.png"
+    ],
+    "accesorio": []
+  },
+  "shared": {
+    "bolso": [
+      "bolso leopardo.png",
+      "bolso marron parfois.png",
+      "bolso negro parfois.png"
+    ]
+  }
+}

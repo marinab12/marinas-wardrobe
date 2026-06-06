@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Armario de Marina</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+  <header>
+    <div id="season-toggle" class="summer">
+      <div class="toggle-pill"></div>
+      <button id="btnSummer">☀</button>
+      <button id="btnWinter">❄</button>
+    </div>
+    <span>Armario de Marina</span>
+    <div></div>
+  </header>
+
+  <div id="main-container">
+    <div class="side-column" id="sideAccesorios">
+      <div class="category-label">Accesorios</div>
+      <div class="scroll-container" id="scrollAccesorio"></div>
+    </div>
+    <div class="side-column" id="sideBolsos" style="order:3">
+      <div class="category-label">Bolsos</div>
+      <div class="scroll-container" id="scrollBolsos"></div>
+    </div>
+    <div id="center-content">
+      <div id="outfit-toggle" class="separado">
+        <div class="toggle-pill"></div>
+        <button id="btnSeparado">2P</button>
+        <button id="btnVestido">V</button>
+      </div>
+      <div id="wrapperArriba">
+        <div class="category-label">Partes de arriba</div>
+        <div class="scroll-container" id="scrollArriba"></div>
+      </div>
+      <div id="wrapperVestidos" style="display:none">
+        <div class="category-label">Vestidos</div>
+        <div class="scroll-container" id="scrollVestidos"></div>
+      </div>
+      <div id="wrapperAbajo">
+        <div class="category-label">Partes de abajo</div>
+        <div class="scroll-container" id="scrollAbajo"></div>
+      </div>
+      <div id="wrapperZapatos">
+        <div class="category-label">Zapatos</div>
+        <div class="scroll-container" id="scrollZapatos"></div>
+      </div>
+    </div>
+    <div class="side-column" id="sideChaqueta" style="display:none; order:4">
+      <div class="category-label">Chaquetas</div>
+      <div class="scroll-container" id="scrollChaqueta"></div>
+    </div>
+  </div>
+
+  <footer>
+    <button id="btnRandom">Combinación aleatoria</button>
+  </footer>
+
+  <script src="app.js"></script>
+</body>
+
+</html>
