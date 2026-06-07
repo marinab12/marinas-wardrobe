@@ -131,7 +131,7 @@ header span {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 10px;
+    gap: 0;
     overflow: hidden;
     padding: 5px 0;
     border-radius: 10px;
@@ -147,6 +147,29 @@ header span {
     letter-spacing: 0.08em;
     text-align: center;
     padding: 4px 2px 2px;
+    user-select: none;
+}
+
+.sub-section {
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.sub-section + .sub-section {
+    border-top: 1px solid rgba(84, 18, 20, 0.12);
+}
+
+.sub-label {
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.28rem;
+    color: rgba(84, 18, 20, 0.4);
+    letter-spacing: 0.05em;
+    text-align: center;
+    padding: 2px 2px 1px;
     user-select: none;
 }
 

@@ -47,10 +47,6 @@
       "sandalia leopardo.png",
       "sandalia negra tacon.png",
       "sandalia negra tiras.png"
-    ],
-    "accesorio": [
-      "brazalete dorado.png",
-      "pendientes largos piedra.png"
     ]
   },
   "winter": {
@@ -97,14 +93,26 @@
       "botin kitten negro.png",
       "mocasines marrones charol.png",
       "nike blazer 77.png"
-    ],
-    "accesorio": []
+    ]
   },
   "shared": {
     "bolso": [
       "bolso leopardo.png",
       "bolso marron parfois.png",
       "bolso negro parfois.png"
+    ],
+    "pulseras": [
+      "brazalete dorado.png"
+    ],
+    "pendientes": [
+      "pendientes largos piedra.png"
+    ],
+    "gafas": [
+      "gafas running cristal azul.png",
+      "gafas sol leopardo.png",
+      "gafas sol negras.png",
+      "gafas sol patilla dorada.png",
+      "gafas sol running negras.png"
     ]
   }
 }
