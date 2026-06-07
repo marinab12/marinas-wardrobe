@@ -303,7 +303,6 @@ footer {
     -webkit-backdrop-filter: blur(4px);
     border-radius: 10px;
     padding: 6px 8px;
-    overflow: hidden;
 }
 
 #center-content .scroll-container {
