@@ -215,7 +215,7 @@ header span {
     flex-direction: column;
     align-items: center;
     gap: 10px;
-    overflow: clip;
+    overflow: hidden;
     justify-content: flex-start;
     padding-top: 4px;
 }
@@ -509,5 +509,11 @@ footer {
     #wrapperVestidos {
         padding: 4px 4px;
         border-radius: 6px;
+    }
+}
+
+@supports (overflow: clip) {
+    #center-content {
+        overflow: clip;
     }
 }
