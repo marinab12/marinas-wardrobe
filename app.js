@@ -114,14 +114,14 @@ function buildCarousel(category) {
             img.classList.add('category-image');
             img.dataset.category = category.name;
             img.addEventListener('click', () => {
-                const containerRect = container.getBoundingClientRect();
-                const imgRect = img.getBoundingClientRect();
+                const cr = container.getBoundingClientRect();
+                const ir = img.getBoundingClientRect();
                 if (category.vertical) {
-                    const offset = imgRect.top - containerRect.top - (containerRect.height - imgRect.height) / 2;
+                    const offset = ir.top - cr.top - (cr.height - ir.height) / 2;
                     container.scrollBy({ top: offset, behavior: 'smooth' });
                 } else {
-                    const offset = imgRect.left - containerRect.left - (containerRect.width - imgRect.width) / 2;
-                    container.scrollBy({ left: offset, behavior: 'smooth' });
+                    container.scrollLeft += (ir.left + ir.width / 2) - (cr.left + cr.width / 2);
+                    updateActiveImage(container);
                 }
             });
             container.appendChild(img);
@@ -146,9 +146,60 @@ function playRandom() {
             const offset = target.offsetTop - (container.clientHeight - target.clientHeight) / 2;
             container.scrollTo({ top: offset, behavior: 'smooth' });
         } else {
-            const offset = target.offsetLeft - (container.clientWidth - target.clientWidth) / 2;
-            container.scrollTo({ left: offset, behavior: 'smooth' });
+            const cr = container.getBoundingClientRect();
+            const tr = target.getBoundingClientRect();
+            container.scrollLeft += (tr.left + tr.width / 2) - (cr.left + cr.width / 2);
+            updateActiveImage(container);
         }
+    });
+}
+
+function setupCenterTouchScroll() {
+    ['scrollArriba', 'scrollAbajo', 'scrollZapatos', 'scrollVestidos'].forEach(id => {
+        const container = document.getElementById(id);
+        if (!container) return;
+        let startX, startY, startLeft, axis;
+
+        container.addEventListener('touchstart', e => {
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            startLeft = container.scrollLeft;
+            axis = null;
+        }, { passive: true });
+
+        container.addEventListener('touchmove', e => {
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+            if (!axis) {
+                if (Math.abs(dx) > 5 || Math.abs(dy) > 5)
+                    axis = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
+                return;
+            }
+            if (axis !== 'h') return;
+            e.preventDefault();
+            container.scrollLeft = startLeft - dx;
+            handleInfiniteScroll(container, false);
+            updateActiveImage(container);
+        }, { passive: false });
+
+        container.addEventListener('touchend', () => {
+            if (axis !== 'h') { axis = null; return; }
+            axis = null;
+            const cr = container.getBoundingClientRect();
+            const cx = cr.left + cr.width / 2;
+            const imgs = container.querySelectorAll('img.category-image');
+            let closest = null, closestDist = Infinity;
+            imgs.forEach(img => {
+                const r = img.getBoundingClientRect();
+                const d = Math.abs((r.left + r.width / 2) - cx);
+                if (d < closestDist) { closestDist = d; closest = img; }
+            });
+            if (closest) {
+                const r = closest.getBoundingClientRect();
+                container.scrollLeft += (r.left + r.width / 2) - cx;
+                updateActiveImage(container);
+            }
+        }, { passive: true });
     });
 }
 
@@ -206,6 +257,8 @@ async function init() {
         if(cat.vertical) updateActiveImageVertical(container);
         else updateActiveImage(container);
     }
+
+    setupCenterTouchScroll();
 }
 
 window.onload = init;
