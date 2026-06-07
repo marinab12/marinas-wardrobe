@@ -3,6 +3,7 @@
     "arriba": [
       "body blanco halter.png",
       "body negro efecto piel pre.png",
+      "camisa cremallera.png",
       "camiseta asimetrica marron.png",
       "camiseta manga corta canale blanco.png",
       "camiseta manga corta canale gris.png",
@@ -51,7 +52,6 @@
   },
   "winter": {
     "arriba": [
-      "camisa cremallera.png",
       "camiseta drapeado lateral marron.png",
       "camiseta drapeado lateral roja.png",
       "camiseta manga larga marron escote pico.png",
@@ -105,6 +105,13 @@
       "brazalete dorado.png"
     ],
     "pendientes": [
+      "IMG_1011.png",
+      "IMG_1014.png",
+      "IMG_1016.png",
+      "IMG_1017.png",
+      "IMG_1018.png",
+      "IMG_1019.png",
+      "IMG_1020.png",
       "pendientes largos piedra.png"
     ],
     "gafas": [
