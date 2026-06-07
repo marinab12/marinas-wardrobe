@@ -1,43 +1,99 @@
 {
   "summer": {
     "arriba": [
+      "body blanco halter.png",
       "body negro efecto piel pre.png",
       "camiseta asimetrica marron.png",
       "camiseta manga corta canale blanco.png",
-      "camiseta manga corta canale gris.png"
+      "camiseta manga corta canale gris.png",
+      "corset bandeau blanco.png",
+      "corset bandeau negro.png",
+      "top canale beige borde negro.png",
+      "top chaleco lazos.png",
+      "top chaleco negro.png",
+      "top estilo japones lazos.png",
+      "top gris tirantes.png",
+      "top halter adornos plata.png",
+      "top tirantes marron claro.png",
+      "top tirantes marron.png",
+      "top tirantes satinado negro.png",
+      "top tirantes volantes blanco.png",
+      "top volantes blanco.png"
     ],
     "vestido": [
-      "vestido gris corto.png"
+      "vesido largo azul.png",
+      "vestido gris corto.png",
+      "vestido hebilla midi crema.png",
+      "vestido largo espalda descubierta.png",
+      "vestido midi halter azul.png",
+      "vestido tachuelas midi negro.png"
     ],
     "abajo": [
-      "falda corta tablas gris.png"
+      "falda azul efecto vaquero larga.png",
+      "falda blanca boho.png",
+      "falda corta tablas gris.png",
+      "falda morada larga.png",
+      "pantalon blanco largo recto.png",
+      "pantalon blanco largo wide leg.png",
+      "pantalon vaquero barrel.png",
+      "pantalon vaquero mid waist largo azul.png",
+      "pantalon vaquero mid waist largo gris claro.png"
     ],
     "zapatos": [
       "adidas superstar.png",
-      "bailarinas tachuelas burdeos.png"
+      "bailarinas tachuelas burdeos.png",
+      "mocasines marrones charol.png",
+      "nike blazer 77.png",
+      "sandalia blanca tachas.png",
+      "sandalia leopardo.png",
+      "sandalia negra tacon.png",
+      "sandalia negra tiras.png"
     ],
     "accesorio": [
-      "brazalete dorado.png"
+      "brazalete dorado.png",
+      "pendientes largos piedra.png"
     ]
   },
   "winter": {
-    "head": [],
     "arriba": [
-      "cardigan cremallera negro.png",
-      "camiseta oversized manga larga negra desgastada.png",
+      "camisa cremallera.png",
       "camiseta drapeado lateral marron.png",
-      "camiseta polo cremallera negra.png",
-      "camiseta manga larga marron escote pico.png",
       "camiseta drapeado lateral roja.png",
-      "camiseta_drapeado_lateral_crema.png"
+      "camiseta manga larga marron escote pico.png",
+      "camiseta oversized manga larga negra desgastada.png",
+      "camiseta polo cremallera negra.png",
+      "camiseta_drapeado_lateral_crema.png",
+      "cardigan cremallera negro.png",
+      "jersey blanco hueso cuello alto.png",
+      "jersey espalda descubierta azul marino.png",
+      "jersey manga larga crema.png",
+      "jersey manga larga hombreras verde.png",
+      "top manga larga lentejuelas.png",
+      "top punto manga corta blanco.png",
+      "top punto manga corta morado.png",
+      "top vaquero manga larga.png"
     ],
     "chaqueta": [
-      "blazer marron oversized.png"
+      "blazer marron oversized.png",
+      "chaqueta traje gris crop.png"
     ],
     "vestido": [],
-    "abajo": [],
+    "abajo": [
+      "pantalon blanco largo recto.png",
+      "pantalon blanco largo wide leg.png",
+      "pantalon bootcut azul marino rayas.png",
+      "pantalon negro desgatstado d92.png",
+      "pantalon traje negro.png",
+      "pantalon vaquero barrel oscuro tiro bajo.png",
+      "pantalon vaquero barrel.png",
+      "pantalon vaquero mid waist largo azul.png",
+      "pantalon vaquero mid waist largo gris claro.png"
+    ],
     "zapatos": [
-      "adidas superstar.png"
+      "adidas superstar.png",
+      "botin kitten negro.png",
+      "mocasines marrones charol.png",
+      "nike blazer 77.png"
     ],
     "accesorio": []
   },
