@@ -190,6 +190,23 @@ header span {
     border-radius: 3px;
 }
 
+.sub-section .scroll-container {
+    flex-direction: row;
+    overflow-x: auto;
+    overflow-y: hidden;
+    scroll-snap-type: x mandatory;
+    padding-inline: calc(50% - 40px);
+    scroll-padding-inline: calc(50% - 40px);
+}
+
+.sub-section img.category-image {
+    width: 80px;
+    height: auto;
+    max-height: 100%;
+    object-fit: contain;
+    margin: auto 5px;
+}
+
 #center-content {
     flex: 1;
     min-height: 0;

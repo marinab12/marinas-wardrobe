@@ -5,9 +5,9 @@ const categories = [
     {name: 'abajo',    containerId: 'scrollAbajo',     images: [], vertical: false},
     {name: 'zapatos',  containerId: 'scrollZapatos',   images: [], vertical: false},
     {name: 'bolso',      containerId: 'scrollBolsos',     images: [], vertical: true, sharedFolder: 'bolsos'},
-    {name: 'pulseras',   containerId: 'scrollPulseras',   images: [], vertical: true, sharedFolder: 'accesorios/pulseras'},
-    {name: 'pendientes', containerId: 'scrollPendientes', images: [], vertical: true, sharedFolder: 'accesorios/pendientes'},
-    {name: 'gafas',      containerId: 'scrollGafas',      images: [], vertical: true, sharedFolder: 'accesorios/gafas de sol'},
+    {name: 'pulseras',   containerId: 'scrollPulseras',   images: [], vertical: false, sharedFolder: 'accesorios/pulseras'},
+    {name: 'pendientes', containerId: 'scrollPendientes', images: [], vertical: false, sharedFolder: 'accesorios/pendientes'},
+    {name: 'gafas',      containerId: 'scrollGafas',      images: [], vertical: false, sharedFolder: 'accesorios/gafas de sol'},
 ];
 
 let currentSeason = 'summer';
