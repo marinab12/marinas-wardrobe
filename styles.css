@@ -178,6 +178,7 @@ header span {
     width: 100%;
     flex: 1;
     scrollbar-width: thin;
+    scroll-snap-type: y mandatory;
 }
 
 .side-column .scroll-container::-webkit-scrollbar {
