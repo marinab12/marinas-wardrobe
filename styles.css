@@ -111,7 +111,7 @@ header span {
 }
 
 #sideAccesorios {
-    order: 1;
+    order: 5;
 }
 
 #center-content {
@@ -159,9 +159,6 @@ header span {
     width: 100%;
 }
 
-.sub-section + .sub-section {
-    border-top: 1px solid rgba(84, 18, 20, 0.12);
-}
 
 .sub-label {
     font-family: 'Press Start 2P', cursive;
