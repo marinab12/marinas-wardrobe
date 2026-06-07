@@ -89,15 +89,15 @@ function handleInfiniteScroll(container, vertical) {
     if (vertical) {
         const third = container.scrollHeight / 3;
         if (container.scrollTop < third * 0.5)
-            container.scrollTo({ top: container.scrollTop + third, behavior: 'instant' });
+            container.scrollTop += third;
         else if (container.scrollTop > third * 2)
-            container.scrollTo({ top: container.scrollTop - third, behavior: 'instant' });
+            container.scrollTop -= third;
     } else {
         const third = container.scrollWidth / 3;
         if (container.scrollLeft < third * 0.5)
-            container.scrollTo({ left: container.scrollLeft + third, behavior: 'instant' });
+            container.scrollLeft += third;
         else if (container.scrollLeft > third * 2)
-            container.scrollTo({ left: container.scrollLeft - third, behavior: 'instant' });
+            container.scrollLeft -= third;
     }
 }
 
@@ -178,7 +178,15 @@ function setupCenterTouchScroll() {
             if (axis !== 'h') return;
             e.preventDefault();
             container.scrollLeft = startLeft - dx;
-            handleInfiniteScroll(container, false);
+            // Infinite scroll: adjust startLeft when repositioning so next move stays in sync
+            const third = container.scrollWidth / 3;
+            if (container.scrollLeft < third * 0.5) {
+                container.scrollLeft += third;
+                startLeft += third;
+            } else if (container.scrollLeft > third * 2) {
+                container.scrollLeft -= third;
+                startLeft -= third;
+            }
             updateActiveImage(container);
         }, { passive: false });
 
