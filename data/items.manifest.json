@@ -24,7 +24,6 @@
       "vesido largo azul.png",
       "vestido gris corto.png",
       "vestido hebilla midi crema.png",
-      "vestido largo espalda descubierta.png",
       "vestido midi halter azul.png",
       "vestido tachuelas midi negro.png"
     ],
@@ -77,7 +76,11 @@
       "blazer marron oversized.png",
       "chaqueta traje gris crop.png"
     ],
-    "vestido": [],
+    "vestido": [
+      "vesido largo azul.png",
+      "vestido largo espalda descubierta.png",
+      "vestido midi halter azul.png"
+    ],
     "abajo": [
       "pantalon blanco largo recto.png",
       "pantalon blanco largo wide leg.png",
