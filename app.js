@@ -48,12 +48,12 @@ function initScrollPosition(container, category) {
     const mid = Math.floor(repeats / 2);
     const target = imgs[mid * category.images.length] || imgs[Math.floor(imgs.length / 2)];
     if (!target) return;
+    const cr = container.getBoundingClientRect();
+    const tr = target.getBoundingClientRect();
     if (category.vertical) {
-        const pos = target.offsetTop - (container.clientHeight - target.clientHeight) / 2;
-        container.scrollTo({ top: Math.max(0, pos), behavior: 'instant' });
+        container.scrollTop += (tr.top + tr.height / 2) - (cr.top + cr.height / 2);
     } else {
-        const pos = target.offsetLeft - (container.clientWidth - target.clientWidth) / 2;
-        container.scrollTo({ left: Math.max(0, pos), behavior: 'instant' });
+        container.scrollLeft += (tr.left + tr.width / 2) - (cr.left + cr.width / 2);
     }
 }
 

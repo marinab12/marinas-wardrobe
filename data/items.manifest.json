@@ -10,7 +10,7 @@
       "corset bandeau blanco.png",
       "corset bandeau negro.png",
       "top canale beige borde negro.png",
-      "camiseta negra manga corta.png",
+      "camiseta negra manga corta holgada.png",
       "top chaleco cremallera crema.png",
       "top chaleco lazos.png",
       "top chaleco negro.png",
@@ -21,7 +21,14 @@
       "top tirantes marron.png",
       "top tirantes satinado negro.png",
       "top tirantes volantes blanco.png",
-      "top volantes blanco.png"
+      "top volantes blanco.png",
+      "blusa azul cuello envolvente.png",
+      "top negro sin mangas mango.png",
+      "blusa crema sin mangas.png",
+      "blusa blanca lazos.png",
+      "top volantes mariposa negro.png",
+      "camiseta basica blanca manga corta.png",
+      "corset dorado crop lentejuelas hym.png"
     ],
     "vestido": [
       "vesido largo azul.png",
@@ -30,7 +37,9 @@
       "vestido midi halter azul.png",
       "vestido blanco rayas cuello halter.png",
       "vestido rosa fucsia.png",
-      "vestido tachuelas midi negro.png"
+      "vestido tachuelas midi negro.png",
+      "conjunto top y falda bámbula.png",
+      "vestido crochet rosa playero.png"
     ],
     "abajo": [
       "falda azul efecto vaquero larga.png",
@@ -41,7 +50,9 @@
       "pantalon blanco largo wide leg.png",
       "pantalon vaquero barrel.png",
       "pantalon vaquero mid waist largo azul.png",
-      "pantalon vaquero mid waist largo gris claro.png"
+      "pantalon vaquero mid waist largo gris claro.png",
+      "pantalón corto negro pinzas.png",
+      "falda pantalón tablas vaquera.png"
     ],
     "zapatos": [
       "adidas superstar.png",
@@ -71,11 +82,24 @@
       "top manga larga lentejuelas.png",
       "top punto manga corta blanco.png",
       "top punto manga corta morado.png",
-      "top vaquero manga larga.png"
+      "jersey marrón manga corta mango.png",
+      "top vaquero manga larga.png",
+      "sudadera azul marino cremallera ny.png",
+      "sudadera negra crop capucha.png",
+      "camiseta basica blanca manga larga.png"
     ],
     "chaqueta": [
       "blazer marron oversized.png",
-      "chaqueta traje gris crop.png"
+      "chaqueta abrigo pelo cuello negra.png",
+      "chaqueta traje gris crop.png",
+      "chaqueta negra ligera cuello vuelto.png",
+      "blazer negra botones dorados zara.png",
+      "abrigo paño azul.png",
+      "abrigo puffy marron clarito bsk.png",
+      "chaqueta marron puffy.png",
+      "blazer corpped negra zara.png",
+      "blazer azul marino mango.png",
+      "chaqueta beige pelo cinturón.png"
     ],
     "vestido": [
       "vesido largo azul.png",
@@ -91,7 +115,8 @@
       "pantalon vaquero barrel oscuro tiro bajo.png",
       "pantalon vaquero barrel.png",
       "pantalon vaquero mid waist largo azul.png",
-      "pantalon vaquero mid waist largo gris claro.png"
+      "pantalon vaquero mid waist largo gris claro.png",
+      "pantalon traje pinzas massimo dutti.png"
     ],
     "zapatos": [
       "adidas superstar.png",
@@ -109,7 +134,8 @@
       "bolso negro parfois.png"
     ],
     "pulseras": [
-      "brazalete dorado.png"
+      "brazalete dorado.png",
+      "pulsera dorada diamantes.png"
     ],
     "pendientes": [
       "IMG_1011.png",
