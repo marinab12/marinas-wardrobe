@@ -22,6 +22,11 @@ function repeatCount(category) {
     return Math.max(3, Math.ceil(40 / category.images.length));
 }
 
+function centerCopyIndex(category, itemIndex) {
+    const repeats = repeatCount(category);
+    return Math.floor(repeats / 2) * category.images.length + itemIndex;
+}
+
 function setSeason(season) {
     currentSeason = season;
     const isWinter = season === 'winter';
@@ -72,7 +77,7 @@ function initScrollPosition(container, category) {
     }
 }
 
-function setCenterCarouselIndex(category, index, animate = true) {
+function setCenterCarouselIndex(category, index, animate = true, normalize = true) {
     if (!category.images.length) return;
     const container = document.getElementById(category.containerId);
     const track = container.querySelector('.carousel-track');
@@ -80,10 +85,9 @@ function setCenterCarouselIndex(category, index, animate = true) {
 
     const repeats = repeatCount(category);
     const total = repeats * category.images.length;
-    const mid = Math.floor(repeats / 2) * category.images.length;
     const normalizedItem = ((index % category.images.length) + category.images.length) % category.images.length;
-    if (index < category.images.length || index >= total - category.images.length) {
-        index = mid + normalizedItem;
+    if (normalize && (index < category.images.length || index >= total - category.images.length)) {
+        index = centerCopyIndex(category, normalizedItem);
     }
 
     const target = track.querySelector(`[data-index="${index}"]`);
@@ -109,6 +113,26 @@ function setCenterCarouselIndex(category, index, animate = true) {
 
 function moveCenterCarouselBy(category, delta) {
     if (!category?.images.length || !delta) return;
+    const currentItem = ((category.activeIndex || 0) % category.images.length + category.images.length) % category.images.length;
+
+    if (delta > 0 && currentItem === category.images.length - 1) {
+        setCenterCarouselIndex(category, centerCopyIndex(category, currentItem), false);
+        requestAnimationFrame(() => {
+            setCenterCarouselIndex(category, centerCopyIndex(category, currentItem) + 1, true, false);
+            window.setTimeout(() => setCenterCarouselIndex(category, centerCopyIndex(category, 0), false), 320);
+        });
+        return;
+    }
+
+    if (delta < 0 && currentItem === 0) {
+        setCenterCarouselIndex(category, centerCopyIndex(category, currentItem), false);
+        requestAnimationFrame(() => {
+            setCenterCarouselIndex(category, centerCopyIndex(category, currentItem) - 1, true, false);
+            window.setTimeout(() => setCenterCarouselIndex(category, centerCopyIndex(category, category.images.length - 1), false), 320);
+        });
+        return;
+    }
+
     setCenterCarouselIndex(category, (category.activeIndex || 0) + delta);
 }
 
