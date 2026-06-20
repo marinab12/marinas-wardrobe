@@ -1,0 +1,8 @@
+{
+  "appId": "com.marina.armario",
+  "appName": "Armario de Marina",
+  "webDir": "www",
+  "server": {
+    "iosScheme": "capacitor"
+  }
+}

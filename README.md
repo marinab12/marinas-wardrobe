@@ -22,7 +22,35 @@ marinas-wardrobe
 ## Uso local
 
 ```bash
-python3 -m http.server 8000
+npm run serve
 ```
 
 Abre `http://localhost:8000` en el navegador.
+
+## App iOS
+
+Este proyecto usa Capacitor para empaquetar la web como app nativa iOS.
+
+### Requisitos
+
+- Node.js y npm
+- Xcode instalado en macOS
+
+### Comandos
+
+```bash
+npm install
+npm run build
+npm run ios:sync
+npm run ios:open
+```
+
+`npm run build` copia la web y sus assets a `www/`, que es la carpeta que Capacitor sincroniza con Xcode.
+
+Para abrir el proyecto directamente en Xcode:
+
+```bash
+npm run ios:open
+```
+
+Desde Xcode puedes elegir un simulador o un iPhone conectado y ejecutar la app.
