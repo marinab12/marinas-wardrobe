@@ -93,15 +93,17 @@ function setCenterCarouselIndex(category, index, animate = true) {
     track.style.transition = animate ? 'transform 0.28s ease' : 'none';
     track.style.transform = `translate3d(${offset}px, 0, 0)`;
 
-    track.querySelectorAll('img.category-image').forEach(img => img.classList.remove('active'));
-    target.classList.add('active');
     category.activeIndex = index;
     category.trackOffset = offset;
+    updateActiveImage(container);
 
     if (!animate) {
         requestAnimationFrame(() => {
             track.style.transition = 'transform 0.28s ease';
+            updateActiveImage(container);
         });
+    } else {
+        window.setTimeout(() => updateActiveImage(container), 300);
     }
 }
 

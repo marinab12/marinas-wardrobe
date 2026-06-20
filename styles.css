@@ -323,8 +323,8 @@ footer {
     min-height: 0;
     overflow-x: hidden;
     overflow-y: hidden;
-    padding-inline: calc(50% - 70px);
-    scroll-padding-inline: calc(50% - 70px);
+    padding-inline: 0;
+    scroll-padding-inline: 0;
     touch-action: pan-x;
 }
 
@@ -337,6 +337,10 @@ footer {
 
 #center-content img.category-image {
     height: 100%;
+}
+
+#center-content img.category-image.active {
+    opacity: 1 !important;
 }
 
 #outfit-toggle {
