@@ -203,6 +203,7 @@ header span {
     scroll-snap-type: x mandatory;
     padding-inline: calc(50% - 40px);
     scroll-padding-inline: calc(50% - 40px);
+    touch-action: pan-x;
 }
 
 .sub-section img.category-image {

@@ -271,6 +271,46 @@ function setupCenterTouchScroll() {
     });
 }
 
+function setupAccessoryTouchScroll() {
+    ['scrollPulseras', 'scrollPendientes', 'scrollGafas'].forEach(id => {
+        const container = document.getElementById(id);
+        if (!container) return;
+        if (container.dataset.accessoryTouchReady === 'true') return;
+        container.dataset.accessoryTouchReady = 'true';
+
+        let startX = 0, startY = 0, startLeft = 0, isHorizontal = null;
+
+        container.addEventListener('touchstart', e => {
+            if (e.touches.length !== 1) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            startLeft = container.scrollLeft;
+            isHorizontal = null;
+        }, { passive: true });
+
+        container.addEventListener('touchmove', e => {
+            if (e.touches.length !== 1) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+
+            if (isHorizontal === null) {
+                if (Math.abs(dx) < 5 && Math.abs(dy) < 5) return;
+                isHorizontal = Math.abs(dx) >= Math.abs(dy);
+            }
+
+            if (!isHorizontal) return;
+            e.preventDefault();
+            container.scrollLeft = startLeft - dx;
+            handleInfiniteScroll(container, false);
+            updateActiveImage(container);
+        }, { passive: false });
+
+        container.addEventListener('touchend', () => {
+            if (isHorizontal === true) updateActiveImage(container);
+        }, { passive: true });
+    });
+}
+
 function setOutfitMode(mode) {
     const isSeparado = mode === 'separado';
     document.getElementById('wrapperArriba').style.display = isSeparado ? '' : 'none';
@@ -327,6 +367,7 @@ async function init() {
     }
 
     setupCenterTouchScroll();
+    setupAccessoryTouchScroll();
 }
 
 window.onload = init;
