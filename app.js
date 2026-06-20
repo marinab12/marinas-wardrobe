@@ -111,6 +111,7 @@ function buildCarousel(category) {
             const img = document.createElement('img');
             img.src = url;
             img.alt = url;
+            img.draggable = false;
             img.classList.add('category-image');
             img.dataset.category = category.name;
             img.addEventListener('click', () => {
@@ -158,41 +159,10 @@ function setupCenterTouchScroll() {
     ['scrollArriba', 'scrollAbajo', 'scrollZapatos', 'scrollVestidos'].forEach(id => {
         const container = document.getElementById(id);
         if (!container) return;
-        let startX, startY, startLeft, axis;
+        if (container.dataset.touchScrollReady === 'true') return;
+        container.dataset.touchScrollReady = 'true';
 
-        container.addEventListener('touchstart', e => {
-            startX = e.touches[0].clientX;
-            startY = e.touches[0].clientY;
-            startLeft = container.scrollLeft;
-            axis = null;
-        }, { passive: true });
-
-        container.addEventListener('touchmove', e => {
-            const dx = e.touches[0].clientX - startX;
-            const dy = e.touches[0].clientY - startY;
-            if (!axis) {
-                if (Math.abs(dx) > 5 || Math.abs(dy) > 5)
-                    axis = Math.abs(dx) >= Math.abs(dy) ? 'h' : 'v';
-                return;
-            }
-            if (axis !== 'h') return;
-            e.preventDefault();
-            container.scrollLeft = startLeft - dx;
-            // Infinite scroll: adjust startLeft when repositioning so next move stays in sync
-            const third = container.scrollWidth / 3;
-            if (container.scrollLeft < third * 0.5) {
-                container.scrollLeft += third;
-                startLeft += third;
-            } else if (container.scrollLeft > third * 2) {
-                container.scrollLeft -= third;
-                startLeft -= third;
-            }
-            updateActiveImage(container);
-        }, { passive: false });
-
-        container.addEventListener('touchend', () => {
-            if (axis !== 'h') { axis = null; return; }
-            axis = null;
+        const snapToClosest = () => {
             const cr = container.getBoundingClientRect();
             const cx = cr.left + cr.width / 2;
             const imgs = container.querySelectorAll('img.category-image');
@@ -204,10 +174,23 @@ function setupCenterTouchScroll() {
             });
             if (closest) {
                 const r = closest.getBoundingClientRect();
-                container.scrollLeft += (r.left + r.width / 2) - cx;
+                container.scrollBy({
+                    left: (r.left + r.width / 2) - cx,
+                    behavior: 'smooth'
+                });
                 updateActiveImage(container);
             }
-        }, { passive: true });
+        };
+
+        const settle = () => {
+            requestAnimationFrame(() => setTimeout(snapToClosest, 80));
+        };
+
+        container.addEventListener('touchend', settle, { passive: true });
+        container.addEventListener('pointerup', settle, { passive: true });
+        if ('onscrollend' in window) {
+            container.addEventListener('scrollend', snapToClosest, { passive: true });
+        }
     });
 }
 
@@ -248,11 +231,11 @@ async function init() {
         await loadCategoryImages(cat);
         buildCarousel(cat);
         const container = document.getElementById(cat.containerId);
-        container.addEventListener('scroll', () => {
+        container.onscroll = () => {
             handleInfiniteScroll(container, cat.vertical);
             if(cat.vertical) updateActiveImageVertical(container);
             else updateActiveImage(container);
-        });
+        };
     }
 
     // Wait for layout to be computed before setting scroll positions

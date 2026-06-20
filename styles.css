@@ -184,6 +184,7 @@ header span {
     flex: 1;
     scrollbar-width: thin;
     scroll-snap-type: y mandatory;
+    touch-action: pan-y;
 }
 
 .side-column .scroll-container::-webkit-scrollbar {
@@ -244,6 +245,7 @@ header span {
     overscroll-behavior-x: contain;
     scrollbar-width: none;
     -ms-overflow-style: none;
+    touch-action: pan-x;
 }
 
 .scroll-container::-webkit-scrollbar {
@@ -260,6 +262,7 @@ img.category-image {
     opacity: 0.3;
     transition: opacity 0.3s ease;
     user-select: none;
+    -webkit-user-drag: none;
     pointer-events: auto;
 }
 
@@ -318,6 +321,7 @@ footer {
     overflow-y: hidden;
     padding-inline: calc(50% - 70px);
     scroll-padding-inline: calc(50% - 70px);
+    touch-action: pan-x;
 }
 
 #center-content img.category-image {
