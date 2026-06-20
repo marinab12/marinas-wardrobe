@@ -136,6 +136,13 @@ function moveCenterCarouselBy(category, delta) {
     setCenterCarouselIndex(category, (category.activeIndex || 0) + delta);
 }
 
+function centerClickedItem(category, target) {
+    const img = target?.closest?.('img.category-image');
+    if (!category || !img?.dataset.index) return false;
+    setCenterCarouselIndex(category, Number(img.dataset.index));
+    return true;
+}
+
 function updateActiveImage(container) {
     const imgs = container.querySelectorAll('img.category-image');
     const containerRect = container.getBoundingClientRect();
@@ -302,7 +309,8 @@ function setupCenterTouchScroll() {
             container.classList.remove('is-dragging');
             const dx = e.clientX - pointerStartX;
             const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
-            moveCenterCarouselBy(category, direction);
+            if (direction === 0) centerClickedItem(category, e.target);
+            else moveCenterCarouselBy(category, direction);
             container.releasePointerCapture?.(e.pointerId);
         });
 
@@ -340,10 +348,17 @@ function setupCenterTouchScroll() {
         }, { passive: false });
 
         container.addEventListener('touchend', e => {
-            if (!category || isHorizontal !== true) return;
+            if (!category) return;
             const dx = e.changedTouches[0].clientX - startX;
             const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
-            moveCenterCarouselBy(category, direction);
+            if (isHorizontal === true && direction !== 0) {
+                moveCenterCarouselBy(category, direction);
+                return;
+            }
+
+            const touch = e.changedTouches[0];
+            const target = document.elementFromPoint(touch.clientX, touch.clientY);
+            centerClickedItem(category, target);
         }, { passive: true });
 
         container.addEventListener('touchcancel', () => {
