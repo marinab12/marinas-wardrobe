@@ -321,11 +321,18 @@ footer {
 #center-content .scroll-container {
     flex: 1;
     min-height: 0;
-    overflow-x: auto;
+    overflow-x: hidden;
     overflow-y: hidden;
     padding-inline: calc(50% - 70px);
     scroll-padding-inline: calc(50% - 70px);
     touch-action: pan-x;
+}
+
+#center-content .carousel-track {
+    display: flex;
+    align-items: stretch;
+    height: 100%;
+    will-change: transform;
 }
 
 #center-content img.category-image {

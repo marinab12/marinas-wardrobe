@@ -12,6 +12,15 @@ const categories = [
 
 let currentSeason = 'summer';
 let manifest = null;
+const centerContainerIds = new Set(['scrollArriba', 'scrollAbajo', 'scrollZapatos', 'scrollVestidos']);
+
+function isCenterCategory(category) {
+    return centerContainerIds.has(category.containerId);
+}
+
+function repeatCount(category) {
+    return Math.max(3, Math.ceil(40 / category.images.length));
+}
 
 function setSeason(season) {
     currentSeason = season;
@@ -42,9 +51,15 @@ async function loadCategoryImages(category) {
 }
 
 function initScrollPosition(container, category) {
+    if (isCenterCategory(category)) {
+        const repeats = repeatCount(category);
+        setCenterCarouselIndex(category, Math.floor(repeats / 2) * category.images.length, false);
+        return;
+    }
+
     const imgs = container.querySelectorAll('img.category-image');
     if (!imgs.length || !category.images.length) return;
-    const repeats = Math.max(3, Math.ceil(40 / category.images.length));
+    const repeats = repeatCount(category);
     const mid = Math.floor(repeats / 2);
     const target = imgs[mid * category.images.length] || imgs[Math.floor(imgs.length / 2)];
     if (!target) return;
@@ -54,6 +69,39 @@ function initScrollPosition(container, category) {
         container.scrollTop += (tr.top + tr.height / 2) - (cr.top + cr.height / 2);
     } else {
         container.scrollLeft += (tr.left + tr.width / 2) - (cr.left + cr.width / 2);
+    }
+}
+
+function setCenterCarouselIndex(category, index, animate = true) {
+    if (!category.images.length) return;
+    const container = document.getElementById(category.containerId);
+    const track = container.querySelector('.carousel-track');
+    if (!track) return;
+
+    const repeats = repeatCount(category);
+    const total = repeats * category.images.length;
+    const mid = Math.floor(repeats / 2) * category.images.length;
+    const normalizedItem = ((index % category.images.length) + category.images.length) % category.images.length;
+    if (index < category.images.length || index >= total - category.images.length) {
+        index = mid + normalizedItem;
+    }
+
+    const target = track.querySelector(`[data-index="${index}"]`);
+    if (!target) return;
+
+    const offset = (container.clientWidth / 2) - (target.offsetLeft + target.offsetWidth / 2);
+    track.style.transition = animate ? 'transform 0.28s ease' : 'none';
+    track.style.transform = `translate3d(${offset}px, 0, 0)`;
+
+    track.querySelectorAll('img.category-image').forEach(img => img.classList.remove('active'));
+    target.classList.add('active');
+    category.activeIndex = index;
+    category.trackOffset = offset;
+
+    if (!animate) {
+        requestAnimationFrame(() => {
+            track.style.transition = 'transform 0.28s ease';
+        });
     }
 }
 
@@ -105,16 +153,30 @@ function buildCarousel(category) {
     const container = document.getElementById(category.containerId);
     container.innerHTML = '';
     if(category.images.length === 0) return;
-    const repeats = Math.max(3, Math.ceil(40 / category.images.length));
+    const repeats = repeatCount(category);
+    const parent = isCenterCategory(category) ? document.createElement('div') : container;
+
+    if (isCenterCategory(category)) {
+        parent.className = 'carousel-track';
+        container.appendChild(parent);
+    }
+
     for(let repeat = 0; repeat < repeats; repeat++) {
-        category.images.forEach(url => {
+        category.images.forEach((url, itemIndex) => {
+            const absoluteIndex = repeat * category.images.length + itemIndex;
             const img = document.createElement('img');
             img.src = url;
             img.alt = url;
             img.draggable = false;
             img.classList.add('category-image');
             img.dataset.category = category.name;
+            img.dataset.index = absoluteIndex;
             img.addEventListener('click', () => {
+                if (isCenterCategory(category)) {
+                    setCenterCarouselIndex(category, absoluteIndex);
+                    return;
+                }
+
                 const cr = container.getBoundingClientRect();
                 const ir = img.getBoundingClientRect();
                 if (category.vertical) {
@@ -125,7 +187,7 @@ function buildCarousel(category) {
                     updateActiveImage(container);
                 }
             });
-            container.appendChild(img);
+            parent.appendChild(img);
         });
     }
 }
@@ -137,11 +199,16 @@ function playRandom() {
         const imgs = container.querySelectorAll('img.category-image');
         if (imgs.length === 0) return;
 
-        const repeats = Math.max(3, Math.ceil(40 / cat.images.length));
+        const repeats = repeatCount(cat);
         const mid = Math.floor(repeats / 2);
         const pick = Math.floor(Math.random() * cat.images.length);
         const target = imgs[mid * cat.images.length + pick];
         if (!target) return;
+
+        if (isCenterCategory(cat)) {
+            setCenterCarouselIndex(cat, mid * cat.images.length + pick);
+            return;
+        }
 
         if (cat.vertical) {
             const offset = target.offsetTop - (container.clientHeight - target.clientHeight) / 2;
@@ -162,45 +229,18 @@ function setupCenterTouchScroll() {
         if (container.dataset.touchScrollReady === 'true') return;
         container.dataset.touchScrollReady = 'true';
         const category = categories.find(cat => cat.containerId === id);
-        let startX = 0, startY = 0, startLeft = 0, isHorizontal = null;
-        let settleTimer = null;
-
-        const snapToClosest = () => {
-            container.classList.remove('is-dragging');
-            const cr = container.getBoundingClientRect();
-            const cx = cr.left + cr.width / 2;
-            const imgs = container.querySelectorAll('img.category-image');
-            let closest = null, closestDist = Infinity;
-            imgs.forEach(img => {
-                const r = img.getBoundingClientRect();
-                const d = Math.abs((r.left + r.width / 2) - cx);
-                if (d < closestDist) { closestDist = d; closest = img; }
-            });
-            if (closest) {
-                const r = closest.getBoundingClientRect();
-                container.scrollBy({
-                    left: (r.left + r.width / 2) - cx,
-                    behavior: 'smooth'
-                });
-                updateActiveImage(container);
-            }
-        };
-
-        const settle = () => {
-            clearTimeout(settleTimer);
-            settleTimer = setTimeout(snapToClosest, 80);
-        };
+        let startX = 0, startY = 0, isHorizontal = null;
 
         container.addEventListener('touchstart', e => {
             if (e.touches.length !== 1) return;
             startX = e.touches[0].clientX;
             startY = e.touches[0].clientY;
-            startLeft = container.scrollLeft;
             isHorizontal = null;
-            clearTimeout(settleTimer);
         }, { passive: true });
 
         container.addEventListener('touchmove', e => {
+            const track = container.querySelector('.carousel-track');
+            if (!track || !category) return;
             if (e.touches.length !== 1) return;
             const dx = e.touches[0].clientX - startX;
             const dy = e.touches[0].clientY - startY;
@@ -212,25 +252,20 @@ function setupCenterTouchScroll() {
 
             if (!isHorizontal) return;
             e.preventDefault();
-            container.classList.add('is-dragging');
-            container.scrollLeft = startLeft - dx;
-
-            if (category) {
-                const third = container.scrollWidth / 3;
-                if (container.scrollLeft < third * 0.5) {
-                    container.scrollLeft += third;
-                    startLeft += third;
-                } else if (container.scrollLeft > third * 2) {
-                    container.scrollLeft -= third;
-                    startLeft -= third;
-                }
-            }
-
-            updateActiveImage(container);
+            track.style.transition = 'none';
+            track.style.transform = `translate3d(${(category.trackOffset || 0) + dx}px, 0, 0)`;
         }, { passive: false });
 
-        container.addEventListener('touchend', settle, { passive: true });
-        container.addEventListener('touchcancel', settle, { passive: true });
+        container.addEventListener('touchend', e => {
+            if (!category || isHorizontal !== true) return;
+            const dx = e.changedTouches[0].clientX - startX;
+            const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
+            setCenterCarouselIndex(category, (category.activeIndex || 0) + direction);
+        }, { passive: true });
+
+        container.addEventListener('touchcancel', () => {
+            if (category) setCenterCarouselIndex(category, category.activeIndex || 0);
+        }, { passive: true });
     });
 }
 
@@ -246,7 +281,6 @@ function setOutfitMode(mode) {
                 const c = document.getElementById(id);
                 const cat = categories.find(ct => ct.containerId === id);
                 if (cat) initScrollPosition(c, cat);
-                updateActiveImage(c);
             });
         });
     } else {
@@ -254,7 +288,6 @@ function setOutfitMode(mode) {
         const cat = categories.find(ct => ct.containerId === 'scrollVestidos');
         requestAnimationFrame(() => {
             if (cat) initScrollPosition(container, cat);
-            updateActiveImage(container);
         });
     }
 }
@@ -271,11 +304,13 @@ async function init() {
         await loadCategoryImages(cat);
         buildCarousel(cat);
         const container = document.getElementById(cat.containerId);
-        container.onscroll = () => {
-            handleInfiniteScroll(container, cat.vertical);
-            if(cat.vertical) updateActiveImageVertical(container);
-            else updateActiveImage(container);
-        };
+        if (!isCenterCategory(cat)) {
+            container.onscroll = () => {
+                handleInfiniteScroll(container, cat.vertical);
+                if(cat.vertical) updateActiveImageVertical(container);
+                else updateActiveImage(container);
+            };
+        }
     }
 
     // Wait for layout to be computed before setting scroll positions
@@ -286,7 +321,7 @@ async function init() {
         const container = document.getElementById(cat.containerId);
         initScrollPosition(container, cat);
         if(cat.vertical) updateActiveImageVertical(container);
-        else updateActiveImage(container);
+        else if (!isCenterCategory(cat)) updateActiveImage(container);
     }
 
     setupCenterTouchScroll();
