@@ -161,8 +161,12 @@ function setupCenterTouchScroll() {
         if (!container) return;
         if (container.dataset.touchScrollReady === 'true') return;
         container.dataset.touchScrollReady = 'true';
+        const category = categories.find(cat => cat.containerId === id);
+        let startX = 0, startY = 0, startLeft = 0, isHorizontal = null;
+        let settleTimer = null;
 
         const snapToClosest = () => {
+            container.classList.remove('is-dragging');
             const cr = container.getBoundingClientRect();
             const cx = cr.left + cr.width / 2;
             const imgs = container.querySelectorAll('img.category-image');
@@ -183,14 +187,50 @@ function setupCenterTouchScroll() {
         };
 
         const settle = () => {
-            requestAnimationFrame(() => setTimeout(snapToClosest, 80));
+            clearTimeout(settleTimer);
+            settleTimer = setTimeout(snapToClosest, 80);
         };
 
+        container.addEventListener('touchstart', e => {
+            if (e.touches.length !== 1) return;
+            startX = e.touches[0].clientX;
+            startY = e.touches[0].clientY;
+            startLeft = container.scrollLeft;
+            isHorizontal = null;
+            clearTimeout(settleTimer);
+        }, { passive: true });
+
+        container.addEventListener('touchmove', e => {
+            if (e.touches.length !== 1) return;
+            const dx = e.touches[0].clientX - startX;
+            const dy = e.touches[0].clientY - startY;
+
+            if (isHorizontal === null) {
+                if (Math.abs(dx) < 6 && Math.abs(dy) < 6) return;
+                isHorizontal = Math.abs(dx) >= Math.abs(dy);
+            }
+
+            if (!isHorizontal) return;
+            e.preventDefault();
+            container.classList.add('is-dragging');
+            container.scrollLeft = startLeft - dx;
+
+            if (category) {
+                const third = container.scrollWidth / 3;
+                if (container.scrollLeft < third * 0.5) {
+                    container.scrollLeft += third;
+                    startLeft += third;
+                } else if (container.scrollLeft > third * 2) {
+                    container.scrollLeft -= third;
+                    startLeft -= third;
+                }
+            }
+
+            updateActiveImage(container);
+        }, { passive: false });
+
         container.addEventListener('touchend', settle, { passive: true });
-        container.addEventListener('pointerup', settle, { passive: true });
-        if ('onscrollend' in window) {
-            container.addEventListener('scrollend', snapToClosest, { passive: true });
-        }
+        container.addEventListener('touchcancel', settle, { passive: true });
     });
 }
 

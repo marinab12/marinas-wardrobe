@@ -252,6 +252,10 @@ header span {
     display: none;
 }
 
+.scroll-container.is-dragging {
+    scroll-snap-type: none;
+}
+
 img.category-image {
     flex: 0 0 auto;
     width: 140px;
