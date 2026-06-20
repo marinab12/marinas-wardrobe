@@ -327,6 +327,11 @@ footer {
     padding-inline: 0;
     scroll-padding-inline: 0;
     touch-action: pan-x;
+    cursor: grab;
+}
+
+#center-content .scroll-container.is-dragging {
+    cursor: grabbing;
 }
 
 #center-content .carousel-track {

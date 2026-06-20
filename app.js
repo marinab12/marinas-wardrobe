@@ -107,6 +107,11 @@ function setCenterCarouselIndex(category, index, animate = true) {
     }
 }
 
+function moveCenterCarouselBy(category, delta) {
+    if (!category?.images.length || !delta) return;
+    setCenterCarouselIndex(category, (category.activeIndex || 0) + delta);
+}
+
 function updateActiveImage(container) {
     const imgs = container.querySelectorAll('img.category-image');
     const containerRect = container.getBoundingClientRect();
@@ -232,6 +237,58 @@ function setupCenterTouchScroll() {
         container.dataset.touchScrollReady = 'true';
         const category = categories.find(cat => cat.containerId === id);
         let startX = 0, startY = 0, isHorizontal = null;
+        let pointerStartX = 0, pointerStartY = 0, pointerDragging = false;
+        let wheelTimer = null;
+
+        container.addEventListener('wheel', e => {
+            if (!category) return;
+            const dominantDelta = Math.abs(e.deltaX) > Math.abs(e.deltaY) ? e.deltaX : e.deltaY;
+            if (Math.abs(dominantDelta) < 8) return;
+            e.preventDefault();
+            clearTimeout(wheelTimer);
+            wheelTimer = setTimeout(() => {
+                moveCenterCarouselBy(category, dominantDelta > 0 ? 1 : -1);
+            }, 35);
+        }, { passive: false });
+
+        container.addEventListener('pointerdown', e => {
+            if (e.pointerType === 'touch') return;
+            pointerStartX = e.clientX;
+            pointerStartY = e.clientY;
+            pointerDragging = true;
+            container.classList.add('is-dragging');
+            container.setPointerCapture?.(e.pointerId);
+        });
+
+        container.addEventListener('pointermove', e => {
+            if (!pointerDragging || e.pointerType === 'touch') return;
+            const track = container.querySelector('.carousel-track');
+            if (!track || !category) return;
+            const dx = e.clientX - pointerStartX;
+            const dy = e.clientY - pointerStartY;
+            if (Math.abs(dx) < Math.abs(dy)) return;
+            e.preventDefault();
+            track.style.transition = 'none';
+            track.style.transform = `translate3d(${(category.trackOffset || 0) + dx}px, 0, 0)`;
+        });
+
+        container.addEventListener('pointerup', e => {
+            if (!pointerDragging || e.pointerType === 'touch') return;
+            pointerDragging = false;
+            container.classList.remove('is-dragging');
+            const dx = e.clientX - pointerStartX;
+            const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
+            moveCenterCarouselBy(category, direction);
+            container.releasePointerCapture?.(e.pointerId);
+        });
+
+        container.addEventListener('pointercancel', e => {
+            if (!pointerDragging || e.pointerType === 'touch') return;
+            pointerDragging = false;
+            container.classList.remove('is-dragging');
+            setCenterCarouselIndex(category, category.activeIndex || 0);
+            container.releasePointerCapture?.(e.pointerId);
+        });
 
         container.addEventListener('touchstart', e => {
             if (e.touches.length !== 1) return;
@@ -262,7 +319,7 @@ function setupCenterTouchScroll() {
             if (!category || isHorizontal !== true) return;
             const dx = e.changedTouches[0].clientX - startX;
             const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
-            setCenterCarouselIndex(category, (category.activeIndex || 0) + direction);
+            moveCenterCarouselBy(category, direction);
         }, { passive: true });
 
         container.addEventListener('touchcancel', () => {
