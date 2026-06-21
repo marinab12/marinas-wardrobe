@@ -136,6 +136,20 @@ function moveCenterCarouselBy(category, delta) {
     setCenterCarouselIndex(category, (category.activeIndex || 0) + delta);
 }
 
+function centerCarouselStepSize(category) {
+    const container = document.getElementById(category.containerId);
+    const imgs = container?.querySelectorAll('img.category-image');
+    if (!imgs?.length) return 90;
+    if (imgs.length > 1) return Math.abs(imgs[1].offsetLeft - imgs[0].offsetLeft) || imgs[0].offsetWidth;
+    return imgs[0].offsetWidth;
+}
+
+function dragDeltaToSteps(category, deltaX) {
+    const distance = Math.abs(deltaX);
+    if (distance <= 28) return 0;
+    return Math.max(1, Math.round(distance / centerCarouselStepSize(category)));
+}
+
 function centerClickedItem(category, target) {
     const img = target?.closest?.('img.category-image');
     if (!category || !img?.dataset.index) return false;
@@ -308,9 +322,9 @@ function setupCenterTouchScroll() {
             pointerDragging = false;
             container.classList.remove('is-dragging');
             const dx = e.clientX - pointerStartX;
-            const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
-            if (direction === 0) centerClickedItem(category, e.target);
-            else moveCenterCarouselBy(category, direction);
+            const steps = dragDeltaToSteps(category, dx);
+            if (steps === 0) centerClickedItem(category, e.target);
+            else moveCenterCarouselBy(category, dx < 0 ? steps : -steps);
             container.releasePointerCapture?.(e.pointerId);
         });
 
@@ -350,9 +364,9 @@ function setupCenterTouchScroll() {
         container.addEventListener('touchend', e => {
             if (!category) return;
             const dx = e.changedTouches[0].clientX - startX;
-            const direction = Math.abs(dx) > 28 ? (dx < 0 ? 1 : -1) : 0;
-            if (isHorizontal === true && direction !== 0) {
-                moveCenterCarouselBy(category, direction);
+            const steps = dragDeltaToSteps(category, dx);
+            if (isHorizontal === true && steps !== 0) {
+                moveCenterCarouselBy(category, dx < 0 ? steps : -steps);
                 return;
             }
 
