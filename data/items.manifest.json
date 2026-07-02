@@ -28,7 +28,11 @@
       "blusa blanca lazos.png",
       "top volantes mariposa negro.png",
       "camiseta basica blanca manga corta.png",
-      "corset dorado crop lentejuelas hym.png"
+      "corset dorado crop lentejuelas hym.png",
+      "top chaleco marron lazada.png",
+      "top halter globo.png",
+      "top halter rayas.png",
+      "top halter vaquero.png"
     ],
     "vestido": [
       "vesido largo azul.png",
@@ -63,7 +67,8 @@
       "sandalia blanca tachas.png",
       "sandalia leopardo.png",
       "sandalia negra tacon.png",
-      "sandalia negra tiras.png"
+      "sandalia negra tiras.png",
+      "kitten heels grises.png"
     ]
   },
   "winter": {
@@ -86,7 +91,10 @@
       "top vaquero manga larga.png",
       "sudadera azul marino cremallera ny.png",
       "sudadera negra crop capucha.png",
-      "camiseta basica blanca manga larga.png"
+      "camiseta basica blanca manga larga.png",
+      "camiseta azul murcielago.png",
+      "camiseta manga corta textura hilo metalizado.png",
+      "camiseta negra poliamida manga larga.png"
     ],
     "chaqueta": [
       "blazer marron oversized.png",
@@ -94,12 +102,14 @@
       "chaqueta traje gris crop.png",
       "chaqueta negra ligera cuello vuelto.png",
       "blazer negra botones dorados zara.png",
-      "abrigo paño azul.png",
+      "abrigo pano azul.png",
       "abrigo puffy marron clarito bsk.png",
       "chaqueta marron puffy.png",
       "blazer corpped negra zara.png",
       "blazer azul marino mango.png",
-      "chaqueta beige pelo cinturón.png"
+      "chaqueta beige pelo cinturón.png",
+      "blazer corta gris.png",
+      "blazer oversized gris.png"
     ],
     "vestido": [
       "vesido largo azul.png",

@@ -38,7 +38,7 @@ function setSeason(season) {
 
 async function loadManifest() {
     if (manifest) return;
-    const res = await fetch('data/items.manifest.json?v=items-3');
+    const res = await fetch('data/items.manifest.json?v=items-4');
     manifest = await res.json();
 }
 
