@@ -30,8 +30,11 @@
       "camiseta basica blanca manga corta.png",
       "top tubo dorado crop lentejuelas.png",
       "top chaleco marron lazada.png",
+      "camiseta blanca tirantes.png",
       "top halter globo.png",
+      "top amarillo globo.png",
       "top halter rayas.png",
+      "top rayas halter.png",
       "top halter vaquero.png"
     ],
     "vestido": [
@@ -56,7 +59,8 @@
       "pantalon vaquero mid waist largo azul.png",
       "pantalon vaquero mid waist largo gris claro.png",
       "pantalon corto negro pinzas.png",
-      "falda pantalon tablas vaquera.png"
+      "falda pantalon tablas vaquera.png",
+      "capri negros.png"
     ],
     "zapatos": [
       "adidas superstar.png",
@@ -94,7 +98,12 @@
       "camiseta basica blanca manga larga.png",
       "camiseta azul murcielago.png",
       "camiseta manga corta textura hilo metalizado.png",
-      "camiseta negra poliamida manga larga.png"
+      "camiseta negra poliamida manga larga.png",
+      "blusa manga corta escote volantes.png",
+      "camiseta manga corta hilo metalizado.png",
+      "camiseta tachas asimetrica.png",
+      "jersey negro cuello bardot.png",
+      "chaleco negro cremallera.png"
     ],
     "chaqueta": [
       "blazer marron oversized.png",
@@ -158,7 +167,11 @@
       "IMG_1018.png",
       "IMG_1019.png",
       "IMG_1020.png",
-      "pendientes largos piedra.png"
+      "pendientes largos piedra.png",
+      "pendientes largos oro.png"
+    ],
+    "colgantes": [
+      "collar piedras.png"
     ],
     "gafas": [
       "gafas running cristal azul.png",

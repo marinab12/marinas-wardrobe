@@ -8,6 +8,7 @@ const categories = [
     {name: 'pulseras',   containerId: 'scrollPulseras',   images: [], vertical: false, sharedFolder: 'accesorios/pulseras'},
     {name: 'pendientes', containerId: 'scrollPendientes', images: [], vertical: false, sharedFolder: 'accesorios/pendientes'},
     {name: 'gafas',      containerId: 'scrollGafas',      images: [], vertical: false, sharedFolder: 'accesorios/gafas de sol'},
+    {name: 'colgantes',  containerId: 'scrollColgantes',  images: [], vertical: false, sharedFolder: 'accesorios/colgantes'},
 ];
 
 let currentSeason = 'summer';
@@ -38,7 +39,7 @@ function setSeason(season) {
 
 async function loadManifest() {
     if (manifest) return;
-    const res = await fetch('data/items.manifest.json?v=items-4');
+    const res = await fetch('data/items.manifest.json?v=items-5');
     manifest = await res.json();
 }
 
@@ -382,7 +383,7 @@ function setupCenterTouchScroll() {
 }
 
 function setupAccessoryTouchScroll() {
-    ['scrollPulseras', 'scrollPendientes', 'scrollGafas'].forEach(id => {
+    ['scrollPulseras', 'scrollPendientes', 'scrollGafas', 'scrollColgantes'].forEach(id => {
         const container = document.getElementById(id);
         if (!container) return;
         if (container.dataset.accessoryTouchReady === 'true') return;
