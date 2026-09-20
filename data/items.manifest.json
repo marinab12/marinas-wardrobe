@@ -32,7 +32,9 @@
       "camiseta blanca tirantes.png",
       "top halter globo.png",
       "top halter rayas.png",
-      "top halter vaquero.png"
+      "top halter vaquero.png",
+      "chaleco sin mangas negro.png",
+      "top corset blanco roto.png"
     ],
     "vestido": [
       "vesido largo azul.png",
@@ -43,7 +45,9 @@
       "vestido rosa fucsia.png",
       "vestido tachuelas midi negro.png",
       "conjunto top y falda bambula.png",
-      "vestido crochet rosa playero.png"
+      "vestido crochet rosa playero.png",
+      "vestido negro largo.png",
+      "vestido volantes corto.png"
     ],
     "abajo": [
       "falda azul efecto vaquero larga.png",
@@ -57,7 +61,9 @@
       "pantalon vaquero mid waist largo gris claro.png",
       "pantalon corto negro pinzas.png",
       "falda pantalon tablas vaquera.png",
-      "capri negros.png"
+      "capri negros.png",
+      "falda negra larga.png",
+      "pantalones largos lino blanco.png"
     ],
     "zapatos": [
       "adidas superstar.png",
@@ -120,7 +126,8 @@
     "vestido": [
       "vesido largo azul.png",
       "vestido largo espalda descubierta.png",
-      "vestido midi halter azul.png"
+      "vestido midi halter azul.png",
+      "vestido negro largo.png"
     ],
     "abajo": [
       "pantalon blanco largo recto.png",
@@ -134,7 +141,8 @@
       "pantalon vaquero mid waist largo gris claro.png",
       "pantalon traje pinzas massimo dutti.png",
       "pantalon gris de traje dobladillo.png",
-      "vaquero wide leg bsk.png"
+      "vaquero wide leg bsk.png",
+      "falda negra larga.png"
     ],
     "zapatos": [
       "adidas superstar.png",
